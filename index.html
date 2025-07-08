@@ -34,45 +34,24 @@
     }
   });
 </script>
-
 <body>
-  <div class="container">
-    <h2>DOWNLOAD VIDEO/AUDIO FREE</h2>
-    <p>Masukan Link Video Nya Di Bawah Ini</p>
-    <input type="text" id="urlInput" placeholder="Enter the URL here">
-    <div>
-      <button class="btn btn-mp4" onclick="handleDownload('mp4')">Download MP4</button>
-      <button class="btn btn-mp3" onclick="handleDownload('mp3')">Download MP3</button>
-    </div>
-  </div>
+  <h2>Download Video / MP3 TikTok HD</h2>
+  <input type="text" id="tiktokUrl" placeholder="Tempelkan link TikTok di sini" />
+  <br>
+  <button onclick="download('video')">Download Video HD</button>
+  <button onclick="download('audio')">Download Audio MP3</button>
 
   <script>
-    async function handleDownload(format) {
-      const url = document.getElementById('urlInput').value.trim();
+    function download(type) {
+      const url = document.getElementById('tiktokUrl').value.trim();
       if (!url) {
-        alert("⚠️ Masukkan link terlebih dahulu.");
+        alert("Masukkan link TikTok dulu.");
         return;
       }
-
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Link tidak bisa diakses");
-
-        const blob = await res.blob();
-        const filename = `download.${format}`;
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(link.href);
-      } catch (err) {
-        console.error(err);
-        alert("❌ Gagal download. Pastikan link valid dan langsung ke file.");
-      }
+      window.location.href = `/download?url=${encodeURIComponent(url)}&type=${type}`;
     }
   </script>
+</body>
   
   <!-- DASHBOARD STATISTIK -->
   <section id="dashboard">
