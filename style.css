@@ -26,6 +26,59 @@ body {
   margin-bottom: 40px;
 }
 
+ h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 500px;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 20px;
+      background-color: #1c1c1e;
+      color: #f1f1f1;
+      outline: none;
+      box-shadow: 0 0 10px #00000040;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      background: linear-gradient(to right, #007bff, #0f5cbb);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #0056b3, #0b3d91);
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 500px) {
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
 .container h1 {
   font-size: 28px;
   margin-bottom: 10px;
