@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unduh Video TikTok</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<!-- Navbar -->
+<header>
+<div class="navbar">
+  <div class="logo">Website Downloader</div>
+  <div class="profile-menu">
+    <div class="profile-icon" onclick="toggleMenu()">
+      👤
+    </div>
+</div>
+</header>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("dropdown");
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+  }
+  
+  // Optional: hide if click outside
+  window.addEventListener("click", function(e) {
+    const dropdown = document.getElementById("dropdown");
+    if (!e.target.closest('.profile-menu')) {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+
+<body>
+  <div class="container">
+    <h2>DOWNLOAD VIDEO/AUDIO FREE</h2>
+    <p>Masukan Link Video Nya Di Bawah Ini</p>
+    <input type="text" id="urlInput" placeholder="Enter the URL here">
+    <div>
+      <button class="btn btn-mp4" onclick="handleDownload('mp4')">Download MP4</button>
+      <button class="btn btn-mp3" onclick="handleDownload('mp3')">Download MP3</button>
+    </div>
+  </div>
+
+  <script>
+    async function handleDownload(format) {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) {
+        alert("⚠️ Masukkan link terlebih dahulu.");
+        return;
+      }
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Link tidak bisa diakses");
+
+        const blob = await res.blob();
+        const filename = `download.${format}`;
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(link.href);
+      } catch (err) {
+        console.error(err);
+        alert("❌ Gagal download. Pastikan link valid dan langsung ke file.");
+      }
+    }
+  </script>
+  
+  <!-- DASHBOARD STATISTIK -->
+  <section id="dashboard">
+    <h2>Statistik Penggunaan</h2>
+    <canvas id="usageChart"></canvas>
+  </section>
+  
+<script>
+  const ctx = document.getElementById('usageChart').getContext('2d');
+
+  const usageChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+      datasets: [{
+        label: 'Pengguna Aktif',
+        data: [120, 90, 150, 100, 200, 250, 180],
+        borderColor: '#22d3ee',
+        backgroundColor: 'transparent',
+        tension: 0.4,
+        borderWidth: 2,
+        pointRadius: 0,         // Hilangin titik
+        pointHoverRadius: 0     // Tidak muncul juga saat hover
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: {
+        duration: 1500, // durasi animasi (ms)
+        easing: 'easeOutQuart' // animasi smooth
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#111',
+          titleColor: '#22d3ee',
+          bodyColor: '#fff'
+        }
+      },
+      scales: {
+        y: {
+          ticks: { color: '#bbb', stepSize: 50 },
+          grid: { color: '#2c2c4a' }
+        },
+        x: {
+          ticks: { color: '#bbb' },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+</script>
+
+<section class="about-section">
+  <div class="about-box">
+    <h3>About Me</h3>
+    <p>
+      We are a fast, free, and watermark-free social media video downloader platform. Our goal is to provide the fastest and easiest service for users across Indonesia and the world.
+    </p>
+    <br>
+    <p>
+      Everything is free, no payment, so use it wisely. If there are any problems, you can contact the developer at TikTok @paissoftspoken_ and include proof of the problem. thanks 😊 
+    </p>
+  </div>
+    <div class="about-note">
+    ⚠️ Use this service wisely. We do not store your personal data, and we never ask for your personal data.
+  </div>
+<!-- BOX SOSMED + BUTTON -->
+<section>
+   <!-- Bagian Navigasi -->
+    <div class="footer-links">
+      <div class="link-column">
+        <h4>Tentang Kami</h4>
+        <ul>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="link-column">
+        <h4>Informasi</h4>
+        <ul>
+          <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+          <li><a href="syarat-ketentuan.html">Syarat & Ketentuan</a></li>
+        </ul>
+      </div>
+      <div class="link-column">
+        <h4>Peta Situs</h4>
+        <ul>
+          <li><a href="#">Beranda</a></li>
+          <li><a href="#">Download</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</section>
+
+  <footer>
+    <p>© 2025 Downloader Vidio</p>
+    <p>Made In Indonesia - By Faiz Developer</p>
+  </footer>
