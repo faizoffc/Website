@@ -1,3 +1,18 @@
+function downloadVideo() {
+  const link = document.getElementById("tiktokLink").value;
+  if (!validasiLink(link)) return;
+
+  // Coba redirect langsung ke link download TikTok via API eksternal
+  window.location.href = `https://your-server.com/api/tiktok/video?url=${encodeURIComponent(link)}`;
+}
+
+function downloadAudio() {
+  const link = document.getElementById("tiktokLink").value;
+  if (!validasiLink(link)) return;
+
+  window.location.href = `https://your-server.com/api/tiktok/audio?url=${encodeURIComponent(link)}`;
+}
+
 // Fungsi untuk menentukan ucapan sesuai jam
 function tampilkanUcapan() {
   const jam = new Date().getHours();
