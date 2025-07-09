@@ -1,31 +1,53 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use(express.static("public"));
+app.use(express.json());
 
-app.get("/download", async (req, res) => {
-  const { url, type } = req.query;
-  if (!url || !type) return res.status(400).send("Permintaan tidak lengkap.");
-  
+// Endpoint untuk download video TikTok
+app.get('/api/tiktok/video', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({ error: 'Link tidak boleh kosong.' });
+  }
+
   try {
-    const api = "https://www.tikwm.com/api/";
-    const { data } = await axios.get(`${api}?url=${encodeURIComponent(url)}`);
-    
-    if (data && data.data) {
-      if (type === "video") {
-        return res.redirect(data.data.play); // MP4 video HD
-      } else if (type === "audio") {
-        return res.redirect(data.data.music); // MP3 audio
-      }
+    // Ganti dengan API downloader TikTok yang kamu pakai (ini contoh public)
+    const response = await axios.get(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
+
+    if (response.data && response.data.data) {
+      return res.redirect(response.data.data.play); // Video no watermark
+    } else {
+      return res.status(500).json({ error: 'Gagal mendapatkan video.' });
     }
-    
-    res.status(500).send("Gagal mengambil data video/audio.");
-  } catch (e) {
-    res.status(500).send("Terjadi kesalahan: " + e.message);
+  } catch (err) {
+    return res.status(500).json({ error: 'Terjadi kesalahan server.', detail: err.message });
+  }
+});
+
+// Endpoint untuk download audio TikTok
+app.get('/api/tiktok/audio', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({ error: 'Link tidak boleh kosong.' });
+  }
+
+  try {
+    const response = await axios.get(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
+
+    if (response.data && response.data.data) {
+      return res.redirect(response.data.data.music); // Link MP3
+    } else {
+      return res.status(500).json({ error: 'Gagal mendapatkan audio.' });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: 'Terjadi kesalahan server.', detail: err.message });
   }
 });
 
