@@ -8,101 +8,127 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
-<!-- Navbar -->
-<header>
-<div class="navbar">
-  <div class="logo">Website Downloader</div>
-  <div class="profile-menu">
-    <div class="profile-icon" onclick="toggleMenu()">
-      👤
-    </div>
-</div>
-</header>
-
+  <div class="running-text-container">
+    <p class="running-text">Selamat datang di TikTok Downloader | Unduh Video & Audio tanpa watermark dengan kualitas terbaik</p>
+  </div>
 <script>
-  function toggleMenu() {
-    const menu = document.getElementById("dropdown");
-    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-  }
-  
-  // Optional: hide if click outside
-  window.addEventListener("click", function(e) {
-    const dropdown = document.getElementById("dropdown");
-    if (!e.target.closest('.profile-menu')) {
-      dropdown.style.display = 'none';
+  let lastScrollTop = 0;
+  const navbar = document.getElementById("navbar");
+
+  window.addEventListener("scroll", function () {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+      // Scroll ke bawah → hide navbar
+      navbar.style.top = "-70px";
+    } else {
+      // Scroll ke atas → tampilkan navbar
+      navbar.style.top = "0";
     }
+
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
   });
 </script>
-<body>
-  <h2>Download Video / MP3 TikTok HD</h2>
-  <input type="text" id="tiktokUrl" placeholder="Tempelkan link TikTok di sini" />
-  <br>
-  <button onclick="download('video')">Download Video HD</button>
-  <button onclick="download('audio')">Download Audio MP3</button>
+</div>
+<!-- 🕒 Ucapan Waktu Otomatis -->
+<div class="welcome-minimal">
+<h4>WELCOME TO OUR WEBSITE</h4>
+<p>Selamat datang di TikTok Downloader — Unduh video & audio dari TikTok tanpa watermark, gratis, dan mudah digunakan di semua perangkat.</p>
+</div>
 
-  <script>
-    function download(type) {
-      const url = document.getElementById('tiktokUrl').value.trim();
-      if (!url) {
-        alert("Masukkan link TikTok dulu.");
-        return;
-      }
-      window.location.href = `/download?url=${encodeURIComponent(url)}&type=${type}`;
-    }
-  </script>
-</body>
-  
-  <!-- DASHBOARD STATISTIK -->
-  <section id="dashboard">
-    <h2>Statistik Penggunaan</h2>
-    <canvas id="usageChart"></canvas>
-  </section>
-  
+<div class="container">
+  <h4>DOWNLOAD VIDIO - AUDIO</h4>
+  <p>GUNAKAN LAH DENGAN BIJAK</p>
+  <input type="text" id="linkInput" placeholder="Tempel link di sini...">
+  <button onclick="prosesDownload('video')">Download Video</button>
+  <button onclick="prosesDownload('audio')">Download Audio</button>
+</div>
+
+<!-- Popup Alert -->
+<div class="popup-overlay" id="popupAlert">
+  <div class="popup-content">
+    <span class="close-btn" onclick="tutupPopup()">&times;</span>
+    <p id="popupMessage">Link tidak boleh kosong atau salah!</p>
+  </div>
+</div>
+
+ <script>
+function prosesDownload() {
+  const link = document.getElementById("linkInput").value.trim();
+
+  if (link === '' || !link.startsWith('http')) {
+    // Tampilkan popup
+    document.getElementById("popupMessage").textContent = "Masukkan link yang valid terlebih dahulu!";
+    document.getElementById("popupAlert").style.display = "flex";
+  } else {
+    // Proses download jika link benar
+    console.log("Mulai download: ", link);
+    // → kamu bisa jalankan function download di sini
+  }
+}
+
+function tutupPopup() {
+  document.getElementById("popupAlert").style.display = "none";
+}
+</script>
 <script>
-  const ctx = document.getElementById('usageChart').getContext('2d');
+async function downloadFromUrl(url, filename) {
+  const response = await fetch(url);
+  const blob = await response.blob();
 
-  const usageChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-      datasets: [{
-        label: 'Pengguna Aktif',
-        data: [120, 90, 150, 100, 200, 250, 180],
-        borderColor: '#22d3ee',
-        backgroundColor: 'transparent',
-        tension: 0.4,
-        borderWidth: 2,
-        pointRadius: 0,         // Hilangin titik
-        pointHoverRadius: 0     // Tidak muncul juga saat hover
-      }]
-    },
-    options: {
-      responsive: true,
-      animation: {
-        duration: 1500, // durasi animasi (ms)
-        easing: 'easeOutQuart' // animasi smooth
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#111',
-          titleColor: '#22d3ee',
-          bodyColor: '#fff'
-        }
-      },
-      scales: {
-        y: {
-          ticks: { color: '#bbb', stepSize: 50 },
-          grid: { color: '#2c2c4a' }
-        },
-        x: {
-          ticks: { color: '#bbb' },
-          grid: { display: false }
-        }
-      }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+async function downloadVideo() {
+  const link = document.getElementById("tiktokLink").value.trim();
+  if (!link || !link.includes("tiktok.com")) {
+    alert("Masukkan link TikTok yang valid!");
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.tiklydown.me/api/download?url=${encodeURIComponent(link)}`);
+    const data = await res.json();
+
+    const videoUrl = data.video?.no_watermark;
+    if (videoUrl) {
+      await downloadFromUrl(videoUrl, "tiktok-video.mp4");
+    } else {
+      alert("Gagal mendapatkan video.");
     }
-  });
+  } catch (err) {
+    alert("Terjadi kesalahan saat mengunduh video.");
+    console.error(err);
+  }
+}
+
+async function downloadAudio() {
+  const link = document.getElementById("tiktokLink").value.trim();
+  if (!link || !link.includes("tiktok.com")) {
+    alert("Masukkan link TikTok yang valid!");
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.tiklydown.me/api/download?url=${encodeURIComponent(link)}`);
+    const data = await res.json();
+
+    const musicUrl = data.music;
+    if (musicUrl) {
+      await downloadFromUrl(musicUrl, "tiktok-audio.mp3");
+    } else {
+      alert("Gagal mendapatkan audio.");
+    }
+  } catch (err) {
+    alert("Terjadi kesalahan saat mengunduh audio.");
+    console.error(err);
+  }
+}
 </script>
 
 <section class="about-section">
@@ -115,21 +141,50 @@
     <p>
       Everything is free, no payment, so use it wisely. If there are any problems, you can contact the developer at TikTok @paissoftspoken_ and include proof of the problem. thanks 😊 
     </p>
+    
+  <div class="clock" id="clockDisplay">
+    <!-- Jam akan muncul di sini -->
   </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      const day = String(now.getDate()).padStart(2, '0');
+      const monthNames = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const month = monthNames[now.getMonth()];
+      const year = now.getFullYear();
+
+      const timeStr = `${hours} : ${minutes} : ${seconds}`;
+      const dateStr = `${day} ${month} ${year}`;
+
+      document.getElementById('clockDisplay').innerHTML = `<span>${timeStr}</span><span class="separator">-</span><span>${dateStr}</span>`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+  </div>
+  <br>
     <div class="about-note">
     ⚠️ Use this service wisely. We do not store your personal data, and we never ask for your personal data.
   </div>
 <!-- BOX SOSMED + BUTTON -->
 <section>
-   <!-- Bagian Navigasi -->
-    <div class="footer-links">
+ <div class="footer-links">
       <div class="link-column">
         <h4>Tentang Kami</h4>
         <ul>
+          <li><a href="#">Facebook</a></li>
           <li><a href="#">TikTok</a></li>
-          <li><a href="#">Instagram</a></li>
         </ul>
-      </div>
+          </div>
       <div class="link-column">
         <h4>Informasi</h4>
         <ul>
@@ -148,7 +203,6 @@
   </div>
 </section>
 </section>
-
   <footer>
     <p>© 2025 Downloader Vidio</p>
     <p>Made In Indonesia - By Faiz Developer</p>

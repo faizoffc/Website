@@ -17,67 +17,26 @@ body {
   background-color: #1f1f3a;
   padding: 40px;
   border-radius: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  max-width: 450px;
+  border-left: 4px solid #38bdf8;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  max-width: 480px;
   width: 100%;
   text-align: center;
   margin: auto;
-  margin-top: 80px;
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 
- h2 {
-      font-size: 26px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #ffffff;
-    }
+h2 {
+  font-size: 12px; /* Ukuran lebih kecil dari default */
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
 
-    input[type="text"] {
-      width: 100%;
-      max-width: 500px;
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      margin-bottom: 20px;
-      background-color: #1c1c1e;
-      color: #f1f1f1;
-      outline: none;
-      box-shadow: 0 0 10px #00000040;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    button {
-      padding: 12px 20px;
-      font-size: 15px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      background: linear-gradient(to right, #007bff, #0f5cbb);
-      color: white;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    }
-
-    button:hover {
-      background: linear-gradient(to right, #0056b3, #0b3d91);
-      transform: scale(1.03);
-    }
-
-    @media (max-width: 500px) {
-      button {
-        width: 100%;
-        justify-content: center;
-      }
-    }
+.judul {
+  font-size: 12px;
+}
 
 .container h1 {
   font-size: 28px;
@@ -90,7 +49,7 @@ body {
 }
 
 .container p {
-  font-size: 15px;
+  font-size: 10px;
   margin-bottom: 20px;
   color: #0ea5e9;
 }
@@ -98,7 +57,7 @@ body {
 input[type="text"] {
   width: 100%;
   padding: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   border: none;
   border-radius: 10px;
   font-size: 14px;
@@ -134,9 +93,8 @@ button:hover {
 #dashboard {
   max-width: 480px;
   margin: 20px auto 10px;
-  border-left: 4px solid #22d3ee;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
   padding: 10px 0;
   text-align: center;
 }
@@ -173,69 +131,52 @@ footer a:hover {
 }
 
 .navbar {
+  background: linear-gradient(to right, #0e1a2b, #142b47);
+  padding: 8px 16px; /* lebih kecil */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
   width: 100%;
-  padding: 12px 24px;
-  background-color: #1e293b;
+  z-index: 999;
+  transition: top 0.3s ease;
+}
+
+.navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
-  position: fixed;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .logo {
+  font-size: 16px; /* lebih kecil */
   font-weight: bold;
-  font-size: 18px;
-  color: #38bdf8;
+  color: #fff;
 }
 
-.profile-menu {
-  position: relative;
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 14px; /* jarak antar menu */
 }
 
-.profile-icon {
-  font-size: 22px;
-  padding: 6px 8px;
-  background: #1e293b;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.profile-icon:hover {
-  background: #374151;
-}
-
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 42px;
-  background-color: #334155;
-  padding: 8px 0;
-  border-radius: 10px;
-  display: none;
-  flex-direction: column;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  min-width: 140px;
-  width: fit-content;
-  z-index: 1000;
-}
-
-.dropdown-menu a {
-  color: #f1f5f9;
-  padding: 10px 16px;
+.nav-links li a {
   text-decoration: none;
-  font-size: 14.5px;
-  border-radius: 6px;
-  transition: background 0.2s ease;
+  color: #ddd;
+  font-weight: 500;
+  font-size: 12px; /* lebih kecil */
+  transition: 0.3s;
+  padding: 4px 8px;
+  border-radius: 5px;
 }
 
-.dropdown-menu a:hover {
-  background-color: #475569;
+.nav-links li a:hover {
+  background: #007bff;
+  color: white;
 }
+
+
 
 .about-section {
   margin: 40px 20px 60px;
@@ -247,8 +188,9 @@ footer a:hover {
   color: #e2e8f0;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-  margin-bottom: 12px;
+  border-left: 4px solid #38bdf8;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  margin-bottom: 10px;
 }
 
 .about-box h3 {
@@ -265,12 +207,12 @@ footer a:hover {
 
 .about-note {
   background-color: #334155;
-  color: #facc15;
+  color: #FFFFFF;
   padding: 12px 16px;
-  border-left: 4px solid #facc15;
+  border-left: 4px solid #FF0000;
   font-size: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
 
 .footer-links {
@@ -346,7 +288,6 @@ form button:hover {
   background: #0056b3;
 }
 
-
 .terms-section {
   display: flex;
   justify-content: center;
@@ -378,7 +319,7 @@ form button:hover {
 .terms-box p,
 .terms-box li {
   color: #ccc;
-  font-size: 14.5px;
+  font-size: 10px;
 }
 
 .terms-box ul {
@@ -416,4 +357,116 @@ form button:hover {
 }
 .agree-btn:hover {
   background-color: #1e7e34;
+}
+
+    .clock {
+      font-size: 14px;
+      background: #1e2a38;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+      margin-top: 20px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .separator {
+      margin: 0 8px;
+      color: #00ffc8;
+    }
+
+    .clock span {
+      color: #00ffc8;
+    }
+    
+    .download-box {
+  text-align: center;
+  margin: 30px auto;
+}
+
+.download-box input {
+  padding: 10px 14px;
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.download-box button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background: #1e90ff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.popup-content {
+  background: white;
+  color: black;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  max-width: 300px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.popup-content p {
+  font-size: 14px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.running-text-container {
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px 0;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.running-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: runText 15s linear infinite;
+}
+
+@keyframes runText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.welcome-minimal {
+  text-align: center;
+  font-size: 14px;
+  font-family: 'Segoe UI', 'Poppins', sans-serif;
+  color: #fff; /* Warna elegan, sedikit biru gelap */
+  margin-top: 40px; /* Agak kebawahin */
+  margin-bottom: 7px;
+  padding: 0 16px;
+  line-height: 1.6;
 }
