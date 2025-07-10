@@ -37,41 +37,17 @@
 </div>
 
 <div class="container">
-  <h4>DOWNLOAD VIDIO - AUDIO</h4>
-  <p>GUNAKAN LAH DENGAN BIJAK</p>
-  <input type="text" id="linkInput" placeholder="Tempel link di sini...">
-  <button onclick="prosesDownload('video')">Download Video</button>
-  <button onclick="prosesDownload('audio')">Download Audio</button>
-</div>
-
-<!-- Popup Alert -->
-<div class="popup-overlay" id="popupAlert">
-  <div class="popup-content">
-    <span class="close-btn" onclick="tutupPopup()">&times;</span>
-    <p id="popupMessage">Link tidak boleh kosong atau salah!</p>
+<h1>TikTok Downloader MP4 / MP3</h1>
+  <input type="text" id="tiktokLink" placeholder="Tempelkan link TikTok di sini..." />
+  <br>
+  <button class="button" onclick="downloadVideo()">Download MP4</button>
+  <button class="button" onclick="downloadAudio()">Download MP3</button>
   </div>
-</div>
-
- <script>
-function prosesDownload() {
-  const link = document.getElementById("linkInput").value.trim();
-
-  if (link === '' || !link.startsWith('http')) {
-    // Tampilkan popup
-    document.getElementById("popupMessage").textContent = "Masukkan link yang valid terlebih dahulu!";
-    document.getElementById("popupAlert").style.display = "flex";
-  } else {
-    // Proses download jika link benar
-    console.log("Mulai download: ", link);
-    // → kamu bisa jalankan function download di sini
-  }
-}
-
-function tutupPopup() {
-  document.getElementById("popupAlert").style.display = "none";
-}
-</script>
+  
+  <!-- MAIN.JS -->
+  <script src="main.js"></script>
 <script>
+
 async function downloadFromUrl(url, filename) {
   const response = await fetch(url);
   const blob = await response.blob();
@@ -86,7 +62,7 @@ async function downloadFromUrl(url, filename) {
 
 async function downloadVideo() {
   const link = document.getElementById("tiktokLink").value.trim();
-  if (!link || !link.includes("vt.tiktok.com")) {
+  if (!link || !link.includes("tiktok.com")) {
     alert("Masukkan link TikTok yang valid!");
     return;
   }
@@ -109,7 +85,7 @@ async function downloadVideo() {
 
 async function downloadAudio() {
   const link = document.getElementById("tiktokLink").value.trim();
-  if (!link || !link.includes("vt.tiktok.com")) {
+  if (!link || !link.includes("tiktok.com")) {
     alert("Masukkan link TikTok yang valid!");
     return;
   }
@@ -188,8 +164,8 @@ async function downloadAudio() {
       <div class="link-column">
         <h4>Informasi</h4>
         <ul>
-          <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
-          <li><a href="syarat-ketentuan.html">Syarat & Ketentuan</a></li>
+          <li><a href="about/kebijakan-privasi.html">Kebijakan Privasi</a></li>
+          <li><a href="about/syarat-ketentuan.html">Syarat & Ketentuan</a></li>
         </ul>
       </div>
       <div class="link-column">

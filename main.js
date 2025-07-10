@@ -1,39 +1,46 @@
+// Validasi input link
+function validasiLink(link) {
+  if (!link || link.trim() === "") {
+    alert("⚠️ Masukkan link TikTok terlebih dahulu.");
+    return false;
+  }
+  return true;
+}
+
+// Download Video MP4
 function downloadVideo() {
   const link = document.getElementById("tiktokLink").value;
   if (!validasiLink(link)) return;
 
-  // Coba redirect langsung ke link download TikTok via API eksternal
-  window.location.href = `https://your-server.com/api/tiktok/video?url=${encodeURIComponent(link)}`;
+  fetch(`/api/video?url=${encodeURIComponent(link)}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Gagal mengambil video.");
+      return response.blob();
+    })
+    .then(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "tiktok-video.mp4";
+      a.click();
+    })
+    .catch(() => alert("❌ Gagal download video."));
 }
 
+// Download Audio MP3
 function downloadAudio() {
   const link = document.getElementById("tiktokLink").value;
   if (!validasiLink(link)) return;
 
-  window.location.href = `https://your-server.com/api/tiktok/audio?url=${encodeURIComponent(link)}`;
+  fetch(`/api/audio?url=${encodeURIComponent(link)}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Gagal mengambil audio.");
+      return response.blob();
+    })
+    .then(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "tiktok-audio.mp3";
+      a.click();
+    })
+    .catch(() => alert("❌ Gagal download audio."));
 }
-
-// Fungsi untuk menentukan ucapan sesuai jam
-function tampilkanUcapan() {
-  const jam = new Date().getHours();
-  let ucapan = "Selamat Datang";
-  
-  if (jam >= 5 && jam < 11) {
-    ucapan = "🌅 Selamat Pagi!";
-  } else if (jam >= 11 && jam < 15) {
-    ucapan = "☀️ Selamat Siang!";
-  } else if (jam >= 15 && jam < 18) {
-    ucapan = "🌇 Selamat Sore!";
-  } else {
-    ucapan = "🌙 Selamat Malam!";
-  }
-  
-  const el = document.getElementById("ucapan-waktu");
-  if (el) el.textContent = ucapan;
-}
-
-// Tampilkan saat halaman pertama kali dimuat
-document.addEventListener("DOMContentLoaded", tampilkanUcapan);
-
-// Update otomatis setiap 1 menit
-setInterval(tampilkanUcapan, 60000);
