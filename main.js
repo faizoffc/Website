@@ -30,3 +30,31 @@ function startDownload(fileUrl, filename) {
     })
     .catch(err => alert("❌ " + err.message));
 }
+
+document.getElementById("btn-mp4").onclick = async () => {
+  const url = document.getElementById("input-link").value.trim();
+  if (!url) return alert("Masukkan link TikTok terlebih dahulu.");
+
+  const res = await fetch(`/api/video?url=${encodeURIComponent(url)}`);
+  const data = await res.json();
+
+  if (data.video_url) {
+    window.location.href = data.video_url;
+  } else {
+    alert(data.error || "Gagal download video.");
+  }
+};
+
+document.getElementById("btn-mp3").onclick = async () => {
+  const url = document.getElementById("input-link").value.trim();
+  if (!url) return alert("Masukkan link TikTok terlebih dahulu.");
+
+  const res = await fetch(`/api/audio?url=${encodeURIComponent(url)}`);
+  const data = await res.json();
+
+  if (data.audio_url) {
+    window.location.href = data.audio_url;
+  } else {
+    alert(data.error || "Gagal download audio.");
+  }
+};
