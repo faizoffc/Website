@@ -1,20 +1,35 @@
+// File: /api/tiktok-audio.js
 import axios from 'axios';
-import https from 'https';
 
 export default async function handler(req, res) {
   const { url } = req.query;
-  if (!url) return res.status(400).json({ error: 'No URL provided' });
+  if (!url) return res.status(400).json({ error: 'URL TikTok tidak ditemukan.' });
 
   try {
-    const { data } = await axios.get(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
-    const videoUrl = data?.data?.play;
-    if (!videoUrl) return res.status(404).json({ error: 'Video not found' });
+    const finalUrl = await resolveRedirect(url);
+    const { data } = await axios.get(`https://api.tikwm.com/?url=${encodeURIComponent(finalUrl)}`);
 
-    https.get(videoUrl, stream => {
-      res.setHeader('Content-Disposition', 'attachment; filename="tiktok-video.mp4"');
-      stream.pipe(res);
+    if (data.code !== 0) {
+      return res.status(500).json({ error: 'Gagal mengambil audio.' });
+    }
+
+    return res.status(200).json({
+      audio_url: data.data.music,
+      title: data.data.title,
     });
   } catch (err) {
-    res.status(500).json({ error: 'Server error', detail: err.message });
+    return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+  }
+}
+
+async function resolveRedirect(shortUrl) {
+  try {
+    const res = await axios.head(shortUrl, {
+      maxRedirects: 0,
+      validateStatus: status => status >= 300 && status < 400,
+    });
+    return res.headers.location || shortUrl;
+  } catch {
+    return shortUrl;
   }
 }
