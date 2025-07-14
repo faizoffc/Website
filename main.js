@@ -1,46 +1,32 @@
-// Validasi input link
-function validasiLink(link) {
-  if (!link || link.trim() === "") {
-    alert("⚠️ Masukkan link TikTok terlebih dahulu.");
-    return false;
-  }
-  return true;
-}
-
-// Download Video MP4
 function downloadVideo() {
-  const link = document.getElementById("tiktokLink").value;
-  if (!validasiLink(link)) return;
+  const url = document.getElementById("link").value.trim();
+  if (!url) return alert("⚠ Masukkan link TikTok terlebih dahulu");
 
-  fetch(`/api/video?url=${encodeURIComponent(link)}`)
-    .then(response => {
-      if (!response.ok) throw new Error("Gagal mengambil video.");
-      return response.blob();
-    })
-    .then(blob => {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "tiktok-video.mp4";
-      a.click();
-    })
-    .catch(() => alert("❌ Gagal download video."));
+  const downloadLink = `/api/video?url=${encodeURIComponent(url)}`;
+  startDownload(downloadLink, "tiktok-video.mp4");
 }
 
-// Download Audio MP3
 function downloadAudio() {
-  const link = document.getElementById("tiktokLink").value;
-  if (!validasiLink(link)) return;
+  const url = document.getElementById("link").value.trim();
+  if (!url) return alert("⚠ Masukkan link TikTok terlebih dahulu");
 
-  fetch(`/api/audio?url=${encodeURIComponent(link)}`)
-    .then(response => {
-      if (!response.ok) throw new Error("Gagal mengambil audio.");
-      return response.blob();
+  const downloadLink = `/api/audio?url=${encodeURIComponent(url)}`;
+  startDownload(downloadLink, "tiktok-audio.mp3");
+}
+
+function startDownload(fileUrl, filename) {
+  fetch(fileUrl)
+    .then(res => {
+      if (!res.ok) throw new Error("Download gagal.");
+      return res.blob();
     })
     .then(blob => {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "tiktok-audio.mp3";
-      a.click();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     })
-    .catch(() => alert("❌ Gagal download audio."));
+    .catch(err => alert("❌ " + err.message));
 }
